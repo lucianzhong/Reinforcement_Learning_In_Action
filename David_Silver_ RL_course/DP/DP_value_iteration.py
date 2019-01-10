@@ -1,25 +1,22 @@
 import numpy as np
 import pprint
 import sys
-if "../" not in sys.path:
-  sys.path.append("../") 
-from lib.envs.gridworld import GridworldEnv
+sys.path.append("../lib/envs") 
+from gridworld import GridworldEnv
 
 pp = pprint.PrettyPrinter(indent=2)
 env = GridworldEnv()
 
 def value_iteration(env, theta=0.0001, discount_factor=1.0):
     """
-    Value Iteration Algorithm.
-    
+    Value Iteration Algorithm.    
     Args:
         env: OpenAI env. env.P represents the transition probabilities of the environment.
-            env.P[s][a] is a list of transition tuples (prob, next_state, reward, done).
-            env.nS is a number of states in the environment. 
-            env.nA is a number of actions in the environment.
+        env.P[s][a] is a list of transition tuples (prob, next_state, reward, done).
+        env.nS is a number of states in the environment. 
+        env.nA is a number of actions in the environment.
         theta: We stop evaluation once our value function change is less than theta for all states.
         discount_factor: Gamma discount factor.
-        
     Returns:
         A tuple (policy, V) of the optimal policy and the optimal value function.
     """
@@ -27,11 +24,9 @@ def value_iteration(env, theta=0.0001, discount_factor=1.0):
     def one_step_lookahead(state, V):
         """
         Helper function to calculate the value for all action in a given state.
-        
         Args:
             state: The state to consider (int)
             V: The value to use as an estimator, Vector of length env.nS
-        
         Returns:
             A vector of length env.nA containing the expected value of each action.
         """
@@ -40,7 +35,7 @@ def value_iteration(env, theta=0.0001, discount_factor=1.0):
             for prob, next_state, reward, done in env.P[state][a]:
                 A[a] += prob * (reward + discount_factor * V[next_state])
         return A
-    
+
     V = np.zeros(env.nS)
     while True:
         # Stopping condition
@@ -56,8 +51,7 @@ def value_iteration(env, theta=0.0001, discount_factor=1.0):
             V[s] = best_action_value        
         # Check if we can stop 
         if delta < theta:
-            break
-    
+            break    
     # Create a deterministic policy using the optimal value function
     policy = np.zeros([env.nS, env.nA])
     for s in range(env.nS):
@@ -65,8 +59,7 @@ def value_iteration(env, theta=0.0001, discount_factor=1.0):
         A = one_step_lookahead(s, V)
         best_action = np.argmax(A)
         # Always take the best action
-        policy[s, best_action] = 1.0
-    
+        policy[s, best_action] = 1.0    
     return policy, V
 
 policy, v = value_iteration(env)

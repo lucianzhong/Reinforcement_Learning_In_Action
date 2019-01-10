@@ -2,26 +2,23 @@ from IPython.core.debugger import set_trace
 import numpy as np
 import pprint
 import sys
-if "../" not in sys.path:
-  sys.path.append("../") 
-from lib.envs.gridworld import GridworldEnv
+sys.path.append("../lib/envs") 
+from gridworld import GridworldEnv
 
 pp = pprint.PrettyPrinter(indent=2)
 env = GridworldEnv()
 
 def policy_eval(policy, env, discount_factor=1.0, theta=0.00001):
     """
-    Evaluate a policy given an environment and a full description of the environment's dynamics.
-    
+    Evaluate a policy given an environment and a full description of the environment's dynamics    
     Args:
         policy: [S, A] shaped matrix representing the policy.
         env: OpenAI env. env.P represents the transition probabilities of the environment.
-            env.P[s][a] is a list of transition tuples (prob, next_state, reward, done).
-            env.nS is a number of states in the environment. 
-            env.nA is a number of actions in the environment.
-        theta: We stop evaluation once our value function change is less than theta for all states.
-        discount_factor: Gamma discount factor.
-    
+             env.P[s][a] is a list of transition tuples (prob, next_state, reward, done).
+             env.nS is a number of states in the environment. 
+             env.nA is a number of actions in the environment.
+             theta: We stop evaluation once our value function change is less than theta for all states.
+             discount_factor: Gamma discount factor.
     Returns:
         Vector of length env.nS representing the value function.
     """
@@ -45,8 +42,6 @@ def policy_eval(policy, env, discount_factor=1.0, theta=0.00001):
         if delta < theta:
             break
     return np.array(V)
-  
-  
   
 random_policy = np.ones([env.nS, env.nA]) / env.nA
 v = policy_eval(random_policy, env)

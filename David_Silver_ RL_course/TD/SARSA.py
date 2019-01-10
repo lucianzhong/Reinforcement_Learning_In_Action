@@ -1,8 +1,10 @@
-from lib.envs.maze_env_sarsa import Maze
+
 
 import numpy as np
 import pandas as pd
-
+import sys
+sys.path.append("../lib/envs") 
+from maze_env_sarsa import Maze
 
 class RL(object):
     def __init__(self, action_space, learning_rate=0.01, reward_decay=0.9, e_greedy=0.9):
