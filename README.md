@@ -47,7 +47,8 @@ Reference:
 	这一部分将会介绍基于 greedyϵ−greedy方法，所谓ϵ−greedy方法，就是对于当前策略，我们以1−epsilon的概率选择当前策略所要执行的动作A，以ϵϵ的概率随机执行其他的动作
 	
 	
-3.时间差分学习(temporal-difference learning)
+3.时间差分学习(temporal-difference learning)    
+--------------
 	是强化学习中的一个中心思想，类似蒙特卡洛方法，它能够直接从经验中学习而不需要对于环境的完整知识。类似动态规划方法，它能够在现有的估计结果上进行提升而不需要等待整个事件结束
 	MC使用准确的return来更新value，而TD则使用Bellman方程中对value的估计方法来估计value，然后将估计值作为value的目标值进行更新
 	不足之处也是显而易见的，就是因为TD target是估计值，估计是有误差的，这就会导致更新得到value是有偏差的。很难做到无偏估计。但是以此同时，TD target是每一个step进行估计的，
